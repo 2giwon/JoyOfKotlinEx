@@ -104,7 +104,7 @@ sealed class Stream<out A> {                    // Stream 클래스를 같은 �
             }
 
     fun <B> flatMap(f: (A) -> Stream<B>): Stream<B> =
-            foldRight(Lazy { Empty }) { a ->
+            foldRight(Lazy { Empty as Stream<B> }) { a ->
                 { b: Lazy<Stream<B>> ->
                     f(a).append(b)
                 }
