@@ -1,27 +1,57 @@
 import kotlin.random.Random
 
 fun main(args: Array<String>) {
-    val ra = Result(4)          // 실패할 수 있는 함수가 반환하는 데이터를 시뮬레이션 한다.
-    val rb = Result(0)
+//    val ra = Result(4)          // 실패할 수 있는 함수가 반환하는 데이터를 시뮬레이션 한다.
+//    val rb = Result(0)
+//
+//    val inserse: (Int) -> Result<Double> = { x ->
+//        when {
+//            x != 0 -> Result(1.toDouble() / x)
+//            else -> Result.failure("Division by 0")
+//        }
+//    }
+//
+//    val showResult: (Double) -> Unit = ::println
+//    val showError: (RuntimeException) -> Unit = { println("Error - ${it.message}") }
+//
+//    val rt1 = ra.flatMap(inserse)
+//    val rt2 = rb.flatMap(inserse)
+//
+//    print("Inverse of 4: ")
+//    rt1.forEach(showResult, showError)              // 결과 값 출력
+//
+//    print("Inverse of 0: ")
+//    rt2.forEach(showResult, showError)
 
-    val inserse: (Int) -> Result<Double> = { x ->
-        when {
-            x != 0 -> Result(1.toDouble() / x)
-            else -> Result.failure("Division by 0")
-        }
-    }
+    val input = ConsoleReader()                         // 리더 생성
+    /*
+        readString 사용자 프롬프트를 사용해 호출하고 결과로 Result<Tuple<String, Input>>를 받는다.
+        이 결과를 Result<String>을 만들기위해 매핑한다.
+     */
+//    val rString = input.readString("Enter your Name: ").map { t -> t.first }
+//
+//    /*
+//        프로그램의 비즈니스 로직( 사용자 관점에서 볼 때 프로그램이 수행해야 하는 일) 부분
+//     */
+//    val nameMessage = rString.map { "Hello $it!" }
+//    nameMessage.forEach(::println, onFailure = { println(it.message) })     // 앞에서 배운 패턴의 결과가 오류메시지에 적용
+//    val rInt = input.readInt("Enter your age: ").map { t -> t.first }
+//    val ageMessage: Result<String> = rInt.map { "YOU look younger than $it!" }
+//    ageMessage.forEach(::println, onFailure = { println("Invalid age. Please enter an integer") })
 
-    val showResult: (Double) -> Unit = ::println
-    val showError: (RuntimeException) -> Unit = { println("Error - ${it.message}") }
+//    readPersonFromConsole().forEach (::println)
+//
+//    val path = "data.txt"
+//    readPersonFromFile(path).forEach(
+//            onSuccess = { list: List<Person> -> list.forEach(::println) },
+//            onFailure = ::println
+//    )
 
-    val rt1 = ra.flatMap(inserse)
-    val rt2 = rb.flatMap(inserse)
+    readPersonFromScript(
+            "1", "Mickey", "Mouse",
+            "2", "Minnie", "Mouse",
+            "3", "Donald", "Duck").forEach(::println)
 
-    print("Inverse of 4: ")
-    rt1.forEach(showResult, showError)              // 결과 값 출력
-
-    print("Inverse of 0: ")
-    rt2.forEach(showResult, showError)
 }
 
 private val f = { x: Int ->
@@ -61,20 +91,6 @@ fun listTest() {
 
     println(List(1, 2, 3, 4, 5).flatMap { i -> List(i, -i) })
 }
-
-fun triple(list: List<Int>): List<Int> =
-        List.foldRight(list, List.invoke()) {
-            { acc: List<Int> ->
-                acc.cons(it * 3)
-            }
-        }
-
-fun doubleToString(list: List<Double>): List<String> =
-        List.foldRight(list, List()) { head ->
-            { acc: List<String> ->
-                acc.cons(head.toString())
-            }
-        }
 
 fun lazyTest() {
     val first = Lazy {

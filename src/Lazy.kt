@@ -1,3 +1,4 @@
+
 fun or(a: Lazy<Boolean>, b: Lazy<Boolean>): Boolean = if (a()) true else b()
 
 fun and(a: Boolean, b: Boolean): Boolean = if (a) b else false

@@ -16,3 +16,6 @@ class ConsoleReader(reader: BufferedReader) : AbstractReader(reader) {
         operator fun invoke(): ConsoleReader = ConsoleReader(BufferedReader(InputStreamReader(System.`in`)))
     }
 }
+
+private fun readPersonFromConsole(): List<Person> =
+        Stream.unfold(ConsoleReader(), ::person).toList()

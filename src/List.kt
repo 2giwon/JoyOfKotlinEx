@@ -5,8 +5,8 @@ sealed class List<out A> {                  // sealed 클래스는 암묵적으�
     abstract fun concat(list: List<@UnsafeVariance A>): List<A>
     abstract fun forEach(ef: (A) -> Unit)
 
-//    abstract class Empty<A> : List<A>() {
-//        override fun concat(list: List<A>): List<A> = list
+//    abstract class Empty<A> : advanced.List<A>() {
+//        override fun concat(list: advanced.List<A>): advanced.List<A> = list
 //    }
 
     fun setHead(a: @UnsafeVariance A): List<A> = when (this) {
@@ -42,6 +42,7 @@ sealed class List<out A> {                  // sealed 클래스는 암묵적으�
         }
 
         override fun concat(list: List<A>): List<A> = Cons(this.head, list.concat(this.tail))
+
         override fun forEach(ef: (A) -> Unit) {
             tailrec fun forEach(list: List<A>) {
                 when (list) {
@@ -127,7 +128,7 @@ sealed class List<out A> {                  // sealed 클래스는 암묵적으�
         @Suppress("UNCHECKED_CAST")
         operator
         fun <A> invoke(vararg az: A): List<A> = // operator 키워드를 사용해 선언한 invoke 함수는 클래스 이름()처럼 호출이 가능하다.
-                // foldRight 함수의 첫 번째 인자로 쓰이는 Nil을 List<A>로 명시적으로 타입을 변환한다.
+                // foldRight 함수의 첫 번째 인자로 쓰이는 Nil을 advanced.List<A>로 명시적으로 타입을 변환한다.
                 az.foldRight(Nil as List<A>) { a: A, list: List<A> -> Cons(a, list) }
 
         tailrec fun <A> reverse(acc: List<A>, list: List<A>): List<A> =
@@ -165,3 +166,17 @@ sealed class List<out A> {                  // sealed 클래스는 암묵적으�
     }
 
 }
+
+fun triple(list: List<Int>): List<Int> =
+        List.foldRight(list, List.invoke()) {
+            { acc: List<Int> ->
+                acc.cons(it * 3)
+            }
+        }
+
+fun doubleToString(list: List<Double>): List<String> =
+        List.foldRight(list, List()) { head ->
+            { acc: List<String> ->
+                acc.cons(head.toString())
+            }
+        }

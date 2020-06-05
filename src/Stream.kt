@@ -1,3 +1,4 @@
+
 sealed class Stream<out A> {                    // Stream 클래스를 같은 파일이나 내포 클래스가 아니면 직접 상속할 수 없다.
 
     abstract fun isEmpty(): Boolean
