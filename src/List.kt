@@ -125,6 +125,8 @@ sealed class List<out A> {                  // sealed 클래스는 암묵적으�
     fun filter2(p: (A) -> Boolean): List<A> = flatMap { condition -> if (p(condition)) List(condition) else invoke() }
 
     companion object {
+        fun <A> cons(a: A, list: List<A>): List<A> = Cons(a, list)
+
         @Suppress("UNCHECKED_CAST")
         operator
         fun <A> invoke(vararg az: A): List<A> = // operator 키워드를 사용해 선언한 invoke 함수는 클래스 이름()처럼 호출이 가능하다.

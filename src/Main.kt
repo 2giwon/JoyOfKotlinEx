@@ -52,7 +52,44 @@ fun main(args: Array<String>) {
             "2", "Minnie", "Mouse",
             "3", "Donald", "Duck").forEach(::println)
 
+
+    val instruction = IO { print("Hello, ") }
+    val instruction2 = IO { print(getName()) }
+    val instruction3 = IO { print("!\n") }
+
+    val script: IO<Unit> = instruction + instruction2 + instruction3
+
+    script()
+
+//    val program: IO = script.foldRight(IO.empty) { io -> { io + it } }
+
+//    val script2 = sayHello()
+//    script2()
+
+    val program = IO.repeat(3, sayHello())
+    program()
+
+//    val program = program(buildMessage, "Enter the names of the persons to welcome: ")
+//    program()
 }
+
+//private fun sayHello(): IO<Unit> = IO.Console.print("Enter your Name: ")
+//        .flatMap { IO.Console.readIn() }
+//        .map { buildMessage(it) }
+//        .flatMap { IO.Console.println(it) }
+//
+//private val buildMessage = { name: String ->
+//    IO.condition(name.isNotEmpty(), Lazy {
+//        IO("Hello , $name").flatMap { IO.Console.println(it) }
+//    })
+//}
+//
+//fun program(f: (String) -> IO<Boolean>, title: String): IO<Unit> {
+//    return IO.sequnce(IO.Console.println(title),
+//            IO.doWhile(IO.Console.readIn(), f),
+//            IO.Console.println("bye!")
+//    )
+//}
 
 private val f = { x: Int ->
     println("Mapping $x")

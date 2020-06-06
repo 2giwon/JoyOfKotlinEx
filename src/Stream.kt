@@ -180,6 +180,15 @@ sealed class Stream<out A> {                    // Stream 클래스를 같은 �
 
         fun <A, S> unfold(z: S, f: (S) -> Result<Pair<A, S>>): Stream<A> =
                 f(z).map { (a, s) -> cons(Lazy { a }, Lazy { unfold(s, f) }) }.getOrElse(Empty)
+
+        fun <A> fill(n: Int, elem: Lazy<A>): Stream<A> {
+            tailrec fun <A> fill(acc: Stream<A>, n: Int, elem: Lazy<A>): Stream<A> =
+                    when {
+                        n <= 0 -> acc
+                        else -> fill(Cons(elem, Lazy { acc }), n - 1, elem)
+                    }
+            return fill(Empty, n, elem)
+        }
     }
 
 }
