@@ -68,28 +68,14 @@ fun main(args: Array<String>) {
 
     val program = IO.repeat(3, sayHello())
     program()
-
-//    val program = program(buildMessage, "Enter the names of the persons to welcome: ")
-//    program()
 }
 
-//private fun sayHello(): IO<Unit> = IO.Console.print("Enter your Name: ")
-//        .flatMap { IO.Console.readIn() }
-//        .map { buildMessage(it) }
-//        .flatMap { IO.Console.println(it) }
-//
-//private val buildMessage = { name: String ->
-//    IO.condition(name.isNotEmpty(), Lazy {
-//        IO("Hello , $name").flatMap { IO.Console.println(it) }
-//    })
-//}
-//
-//fun program(f: (String) -> IO<Boolean>, title: String): IO<Unit> {
-//    return IO.sequnce(IO.Console.println(title),
-//            IO.doWhile(IO.Console.readIn(), f),
-//            IO.Console.println("bye!")
-//    )
-//}
+private fun sayHello(): IO<Unit> = IO.Console.print("Enter your Name: ")
+        .flatMap { IO.Console.readIn() }
+        .map { buildMessage(it) }
+        .flatMap { IO.Console.println(it) }
+
+private fun buildMessage(name: String): String = "Hello, $name"
 
 private val f = { x: Int ->
     println("Mapping $x")
